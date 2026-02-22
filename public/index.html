@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Properties</title>
+  <link rel="stylesheet" href="style.css">
+  <a href="/properties.html">Properties</a>
+  <a href="/login.html">Login</a>
+
+
+</head>
+<body>
+
+<h1>All Properties</h1>
+<a href="/add.html">Add Property</a>
+
+<h1>Search Properties</h1>
+
+  
+<form id="searchForm">
+  <input type="text" id="location" placeholder="Location">
+  <input type="number" id="minPrice" placeholder="Min Price">
+  <input type="number" id="maxPrice" placeholder="Max Price">
+  <button type="submit">Search</button>
+</form>
+
+<hr>
+<div id="list"></div>
+
+  
+<script>
+    const form = document.getElementById("searchForm");
+    const list = document.getElementById("list");
+    
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+    
+      const location = document.getElementById("location").value.trim();
+      const minPrice = document.getElementById("minPrice").value.trim();
+      const maxPrice = document.getElementById("maxPrice").value.trim();
+    
+      if (!location && !minPrice && !maxPrice) {
+        list.innerHTML = "<p>Please enter search criteria</p>";
+        return;
+      }
+    
+      fetch(`/properties?location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
+        .then(res => res.json())
+        .then(data => {
+          list.innerHTML = "";
+    
+          if (data.length === 0) {
+            list.innerHTML = "<p>Property does not exist</p>";
+            return;
+          }
+    
+          data.forEach(p => {
+            list.innerHTML += `
+              <div class="card">
+                <img src="/uploads/${p.image}" width="200"/>
+                <h3>${p.propertyType} (${p.dealType})</h3>
+                <p>Location: ${p.location}</p>
+                <p>Price: ₹${p.price}</p>
+                <p>Phone Number : ${p.contact}</p>
+              </div>
+            `;
+          });
+        });
+    });
+    </script>
+    
+    
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Properties</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>All Properties</h2>
+
+<div id="propertyContainer" class="property-container"></div>
+
+<script>
+fetch("/properties")
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("propertyContainer");
+
+    if(data.length === 0){
+      container.innerHTML = "<p>No properties available</p>";
+      return;
+    }
+
+    data.forEach(property => {
+  container.innerHTML += `
+    <div class="card">
+      <img src="/uploads/${property.image}" width="200">
+      <h3>${property.propertyType} (${property.dealType})</h3>
+      <p>Location: ${property.location}</p>
+      <p>Price: ₹${property.price}</p>
+      <p>Phone Number: ${property.contact}</p>
+    </div>
+  `;
+});
+
+  });
+</script>
+
+</body>
+</html>

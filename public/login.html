@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<form id="myForm">
+  <input type="text" name="name" placeholder="Name" required><br>
+  <input type="number" name="age" placeholder="Age" required><br>
+  <input type="email" name="email" placeholder="Email" required><br>
+  <input type="password" name="password" placeholder="Password" required><br>
+  <input type="text" name="phone" placeholder="Phone" required><br>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById("myForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const formData = {
+    name: e.target.name.value,
+    age: e.target.age.value,
+    email: e.target.email.value,
+    password: e.target.password.value,
+    phone: e.target.phone.value,
+  };
+
+  try {
+    const response = await fetch("/login", {   // ✅ correct route
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      alert("Registration successful!");
+      window.location.href = "registration-success.html";
+    } else {
+      alert("Error registering user");
+    }
+  } catch (err) {
+    alert("⚠️ Server connection failed. Check if backend is running.");
+    console.error(err);
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+
+    body{
+        text-align: center;
+        color: rgb(5, 5, 5);
+        background-color: rgb(36, 50, 50);
+    }
+    .form-group{
+            width: 40%;
+            padding:3px;
+            margin:5px;
+            border-radius: 7px;
+            text-align: center;
+
+
+    }
+    .form-group input{
+    border-radius: 8px;
+    display: block;
+    width: 95%;
+    margin: 0px;
+    padding: 10px;
+    border: 2px solid rgb(57, 4, 4);
+    margin-left: 442px;
+    text-align: center;
+    }
+    .form-group input:hover,.hover:active{
+        text-decoration-line: underline;
+        color: rgb(10, 10, 10);
+    }
+    
+    
+    .btn {
+        padding: 10px 20px;
+        border-radius: 7px;
+        text-align: center;
+        width: 39.5%;
+        margin-left: 83px;
+        padding: 8px;
+        background-color: rgb(246, 241, 241);
+        border: none;
+        margin-top: 30px;
+        font-size: 16px;
+        cursor: pointer;
+        
+    }
+    .btn:hover,.hover:active{
+        text-decoration-line:underline;
+        color: rgb(0, 0, 0);
+        
+      }
+    .Registration Form{
+        text-align: center;
+        color: white;
+        font-size: large;
+
+    }
+    #myForm {
+        display: flex;
+        flex-direction: column;
+        gap:px;        /* this will now work */
+        width: 320px;
+        margin: 40px auto;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      #myForm input,
+#myForm button {
+  padding: 5px;
+  font-size: 15px;
+}
+
+
+
+    
+  
