@@ -1,51 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Registration Form</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Login Account</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .form-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Sahi gap har input ke beech */
+    }
+  </style>
 </head>
 <body>
+  <meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+  <div class="form-container">
 
-<form id="myForm">
-  <input type="text" name="name" placeholder="Name" required><br>
-  <input type="number" name="age" placeholder="Age" required><br>
-  <input type="email" name="email" placeholder="Email" required><br>
-  <input type="password" name="password" placeholder="Password" required><br>
-  <input type="text" name="phone" placeholder="Phone" required><br>
-  <button type="submit">Submit</button>
-</form>
-
-<script>
-document.getElementById("myForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const formData = {
-    name: e.target.name.value,
-    age: e.target.age.value,
-    email: e.target.email.value,
-    password: e.target.password.value,
-    phone: e.target.phone.value,
-  };
-
-  try {
-    const response = await fetch("/login", {   // ✅ correct route
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      alert("Registration successful!");
-      window.location.href = "registration-success.html";
-    } else {
-      alert("Error registering user");
-    }
-  } catch (err) {
-    alert("⚠️ Server connection failed. Check if backend is running.");
-    console.error(err);
-  }
-});
-</script>
-
+    <h2>Login</h2>
+    
+    <form action="/login" method="POST">
+    
+      <input type="email" name="email" placeholder="Email" required>
+    
+      <input type="password" name="password" placeholder="Password" required>
+    
+      <button type="submit" class="submit-btn">
+        Login
+      </button>
+    
+    </form>
+    <a href="/forgot-password.html">
+      Forgot Password?
+   </a>
+    <p>
+      Don't have account?
+      <a href="/signup.html">Signup</a>
+    </p>
+    
+    </div>
+    
 </body>
 </html>
+<script>
+app.post('/login', async(req,res)=>{
+
+  const {email,password} = req.body;
+
+  const user = await User.findOne({email});
+
+  if(!user){
+      return res.send("User not found");
+  }
+
+  const isMatch = await bcrypt.compare(password,user.password);
+
+  if(!isMatch){
+      return res.send("Wrong password");
+  }
+
+  req.session.isLoggedIn = true;
+
+  req.session.user = user;
+
+  res.redirect('/properties.html');
+
+});
+</script>
+<!--
+<script>
+app.get('/add', (req, res) => {
+    if (req.session.isLoggedIn) {
+      res.sendFile(__dirname + '/add.html'); // Agar login hai to page dikhao
+    } else {
+      res.redirect('/login'); // Warna login par bhejo
+    }
+  });
+</script>
+-->
+  

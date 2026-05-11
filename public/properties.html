@@ -2,38 +2,433 @@
 <html>
 <head>
   <title>All Properties</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    padding:30px;
+}
+
+h1{
+    margin-bottom:25px;
+    color:#222;
+}
+
+table{
+    width:100%;
+    background:#fff;
+    border-collapse:collapse;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+table th{
+    background:#0b1c39;
+    color:#fff;
+    padding:15px;
+    text-align:left;
+}
+
+table td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+table img{
+    width:120px;
+    height:90px;
+    object-fit:cover;
+    border-radius:8px;
+}
+table img{
+    width:120px;
+    height:90px;
+    object-fit:cover;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* IMAGE VIEWER */
+
+/* GALLERY */
+
+.gallery-modal{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.95);
+    justify-content:center;
+    align-items:center;
+}
+
+.gallery-modal img{
+    max-width:90%;
+    max-height:85%;
+    border-radius:10px;
+}
+
+.close-gallery{
+    position:absolute;
+    top:20px;
+    right:30px;
+    color:white;
+    font-size:45px;
+    cursor:pointer;
+}
+
+.gallery-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(255,255,255,0.2);
+    color:white;
+    border:none;
+    padding:15px 20px;
+    font-size:30px;
+    cursor:pointer;
+    border-radius:10px;
+}
+
+.left-btn{
+    left:5px;
+    
+}
+
+.right-btn{
+    right:5px;
+   
+}
+.dashboard-btn{
+    display:inline-block;
+    margin-bottom:20px;
+    background:#0b5d3b;
+    color:#fff;
+    padding:10px 18px;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:15px;
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:700px;
+    }
+
+}
+
+.slider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.slider img{
+    width:140px;
+    height:100px;
+    object-fit:cover;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.nav-btn{
+    background:#0b1c39;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:18px;
+}
+
+  </style>
+
 </head>
+<!-- IMAGE VIEW MODAL -->
+
+<!-- GALLERY MODAL -->
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+<div class="gallery-modal" id="galleryModal">
+
+  <span class="close-gallery"
+  onclick="closeGallery()">
+    &times;
+  </span>
+
+  <button
+    class="gallery-btn left-btn"
+    onclick="galleryPrev()">
+    ❮
+  </button>
+
+  <img id="galleryImage">
+  
+
+  <button
+    class="gallery-btn right-btn"
+    onclick="galleryNext()">
+    ❯
+  </button>
+
+</div>
 <body>
 
-<h2>All Properties</h2>
+<a href="/dashboard" class="dashboard-btn">
+  Dashboard
+</a>
 
-<div id="propertyContainer" class="property-container"></div>
+<h1>All Properties</h1>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Image</th>
+
+            <th>Property</th>
+
+            <th>Location</th>
+
+            <th>Price</th>
+
+            <th>Phone Number</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="propertyTable"></tbody>
+
+</table>
 
 <script>
+
 fetch("/properties")
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("propertyContainer");
+.then(res => res.json())
+.then(data => {
+
+    const table =
+    document.getElementById("propertyTable");
 
     if(data.length === 0){
-      container.innerHTML = "<p>No properties available</p>";
-      return;
+
+        table.innerHTML = `
+        
+        <tr>
+          <td colspan="5">
+            No properties available
+          </td>
+        </tr>
+        
+        `;
+
+        return;
+
     }
 
     data.forEach(property => {
-  container.innerHTML += `
-    <div class="card">
-      <img src="/uploads/${property.image}" width="200">
-      <h3>${property.propertyType} (${property.dealType})</h3>
-      <p>Location: ${property.location}</p>
-      <p>Price: ₹${property.price}</p>
-      <p>Phone Number: ${property.contact}</p>
-    </div>
-  `;
+
+        table.innerHTML += `
+
+        <tr>
+
+          <td>
+
+<div class="slider">
+
+<img 
+loding="lazy"
+src="/uploads/${
+property.images && property.images.length > 0
+? property.images[0]
+: property.images
+}"
+class="slider-image"
+
+data-images='${JSON.stringify(
+property.images && property.images.length > 0
+? property.images
+: [property.images]
+)}'
+
+data-index="0"
+
+onclick="openGallery(this)"
+>
+
+</div>
+
+</td>
+            <td>
+              ${property.propertyType}
+              (${property.dealType})
+            </td>
+
+            <td>
+              ${property.location}
+            </td>
+
+            <td>
+              ₹${property.price}
+            </td>
+
+            <td>
+              ${property.contact}
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
 });
 
-  });
+/* LOGIN CHECK */
+
+fetch('/check-login')
+.then(res=>res.json())
+.then(data=>{
+
+    if(!data.loggedIn){
+
+        window.location.href='/login.html';
+
+    }
+
+});
+
+let galleryImages = [];
+
+let currentGalleryIndex = 0;
+
+function openGallery(imgElement){
+
+galleryImages =
+JSON.parse(
+  imgElement.dataset.images
+);
+
+currentGalleryIndex =
+parseInt(
+  imgElement.dataset.index
+);
+
+document.getElementById("galleryModal")
+.style.display = "flex";
+
+updateGalleryImage();
+
+}
+
+function updateGalleryImage(){
+
+    document.getElementById("galleryImage")
+    .src =
+    "/uploads/" +
+    galleryImages[currentGalleryIndex];
+
+}
+
+function galleryNext(){
+
+    currentGalleryIndex++;
+
+    if(currentGalleryIndex >= galleryImages.length){
+        currentGalleryIndex = 0;
+    }
+
+    updateGalleryImage();
+
+}
+
+function galleryPrev(){
+
+    currentGalleryIndex--;
+
+    if(currentGalleryIndex < 0){
+        currentGalleryIndex =
+        galleryImages.length - 1;
+    }
+
+    updateGalleryImage();
+
+}
+
+function closeGallery(){
+
+    document.getElementById("galleryModal")
+    .style.display = "none";
+
+}
+
+function nextImage(button){
+
+const img =
+button.parentElement.querySelector(".slider-image");
+
+const images =
+JSON.parse(img.dataset.images);
+
+let index =
+parseInt(img.dataset.index);
+
+index++;
+
+if(index >= images.length){
+    index = 0;
+}
+
+img.src = "/uploads/" + images[index];
+
+img.dataset.index = index;
+
+}
+
+function prevImage(button){
+
+const img =
+button.parentElement.querySelector(".slider-image");
+
+const images =
+JSON.parse(img.dataset.images);
+
+let index =
+parseInt(img.dataset.index);
+
+index--;
+
+if(index < 0){
+    index = images.length - 1;
+}
+
+img.src = "/uploads/" + images[index];
+
+img.dataset.index = index;
+
+}
+
 </script>
 
 </body>

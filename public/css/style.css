@@ -1,76 +1,59 @@
-
-    body{
-        text-align: center;
-        color: rgb(5, 5, 5);
-        background-color: rgb(36, 50, 50);
-    }
-    .form-group{
-            width: 40%;
-            padding:3px;
-            margin:5px;
-            border-radius: 7px;
-            text-align: center;
-
-
-    }
-    .form-group input{
-    border-radius: 8px;
-    display: block;
-    width: 95%;
-    margin: 0px;
-    padding: 10px;
-    border: 2px solid rgb(57, 4, 4);
-    margin-left: 442px;
-    text-align: center;
-    }
-    .form-group input:hover,.hover:active{
-        text-decoration-line: underline;
-        color: rgb(10, 10, 10);
-    }
-    
-    
-    .btn {
-        padding: 10px 20px;
-        border-radius: 7px;
-        text-align: center;
-        width: 39.5%;
-        margin-left: 83px;
-        padding: 8px;
-        background-color: rgb(246, 241, 241);
-        border: none;
-        margin-top: 30px;
-        font-size: 16px;
-        cursor: pointer;
-        
-    }
-    .btn:hover,.hover:active{
-        text-decoration-line:underline;
-        color: rgb(0, 0, 0);
-        
-      }
-    .Registration Form{
-        text-align: center;
-        color: white;
-        font-size: large;
-
-    }
-    #myForm {
-        display: flex;
-        flex-direction: column;
-        gap:px;        /* this will now work */
-        width: 320px;
-        margin: 40px auto;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-      }
-      #myForm input,
-#myForm button {
-  padding: 5px;
-  font-size: 15px;
+/* Poore page ko center karne ke liye */
+body {
+    background-color: white; /* Wahi Red color jo image mein hai */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
 }
 
+/* White Container (Card) */
+.form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Shadow effect */
+    width: 350px;
+    text-align: center;
+}
 
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
 
+/* Form layout - Flexbox se gap aayega */
+#myForm {
+    display: flex;
+    flex-direction: column;
+    gap:5px; /* Inputs ke beech proper gap */
     
-  
+}
+
+/* Inputs styling */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Width fix rakhta hai */
+    font-size: 14px;
+}
+
+/* Submit Button */
+button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+    column-gap: 5px;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
